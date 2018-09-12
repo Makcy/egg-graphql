@@ -1,6 +1,6 @@
 {
   "name": "egg-graphql",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "egg graphql plugin",
   "eggPlugin": {
     "name": "graphql"
@@ -17,6 +17,7 @@
     "graphql": "^0.11.7",
     "graphql-tag": "^2.5.0",
     "graphql-tools": "^2.19.0",
+    "graphql-voyager": "^1.0.0-rc.25",
     "lodash": "4.17.4"
   },
   "devDependencies": {

@@ -1,15 +1,22 @@
 'use strict';
 
 const { graphqlKoa, graphiqlKoa } = require('apollo-server-koa');
+const { koa: voyagerMiddleware } = require('graphql-voyager/middleware');
 
 module.exports = (_, app) => {
   const options = app.config.graphql;
   const graphQLRouter = options.router;
   options.graphiqlRouter = options.graphiqlRouter ? options.graphiqlRouter : graphQLRouter;
+  const voyagerRouter = options.voyagerRouter;
   let graphiql = true;
 
   if (options.graphiql === false) {
     graphiql = false;
+  }
+
+  let voyager = true;
+  if (options.voyager === false) {
+    voyager = false;
   }
 
   return async (ctx, next) => {
@@ -29,6 +36,11 @@ module.exports = (_, app) => {
       return graphqlKoa({
         schema: app.schema,
         context: ctx,
+        formatError: options.formatError,
+      })(ctx);
+    } else if (voyager && ctx.path === voyagerRouter) {
+      return voyagerMiddleware({
+        endpointURL: options.graphiqlRouter,
       })(ctx);
     }
     await next();
